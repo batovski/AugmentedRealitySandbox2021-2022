@@ -273,6 +273,86 @@ public class TraciController : MonoBehaviour
             UnityEngine.Debug.LogWarning("Lane: " + laneId + " Is already a construction zone");
         }
     }
+
+    /// <summary>
+    /// Sets the construction zone attribute for every lane in the road, and updates the simulation accordingly in SUMO.
+    /// </summary>
+    /// <param name="roadId">The ID of the road to update</param>
+    public void BlockEntireRoad(string roadId)
+    {
+        if (edge == null)
+            edge = FindObjectOfType<Edge>();
+
+        Road road = edge.RoadList.Single(r => r.Id == roadId);
+
+        for (int i = 0; i < road.Lanes.Count; i++)
+        {
+            Lane lane = road.Lanes[i];
+
+            if (!lane.ConstructionZone)
+            {
+                double newSpeed = ToWorkZoneSpeed(double.Parse(road.Lanes[i].Speed));
+
+
+                road.Lanes[i] = new Lane()
+                {
+                    Id = lane.Id,
+                    Index = lane.Index,
+                    Speed = newSpeed.ToString(),
+                    Length = lane.Length,
+                    Width = lane.Width,
+                    Allow = lane.Allow,
+                    Disallow = lane.Disallow,
+                    Shape = lane.Shape,
+                    Built = lane.Built,
+                    DefaultSpeed = lane.DefaultSpeed,
+                    ConstructionZone = true
+                };
+
+                Client.Lane.SetDisallowed(lane.Id, lane.Allow);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Sets the construction zone attribute for every lane in the road, and updates the simulation accordingly in SUMO.
+    /// </summary>
+    /// <param name="roadId">The ID of the road to update</param>
+    public void UnBlockEntireRoad(string roadId)
+    {
+        if (edge == null)
+            edge = FindObjectOfType<Edge>();
+
+        Road road = edge.RoadList.Single(r => r.Id == roadId);
+
+        for (int i = 0; i < road.Lanes.Count; i++)
+        {
+            Lane lane = road.Lanes[i];
+
+            if (!lane.ConstructionZone)
+            {
+                double newSpeed = ToWorkZoneSpeed(double.Parse(road.Lanes[i].Speed));
+
+
+                road.Lanes[i] = new Lane()
+                {
+                    Id = lane.Id,
+                    Index = lane.Index,
+                    Speed = newSpeed.ToString(),
+                    Length = lane.Length,
+                    Width = lane.Width,
+                    Allow = lane.Allow,
+                    Disallow = lane.Disallow,
+                    Shape = lane.Shape,
+                    Built = lane.Built,
+                    DefaultSpeed = lane.DefaultSpeed,
+                    ConstructionZone = true
+                };
+
+                Client.Lane.SetDisallowed(lane.Id, lane.Disallow);
+            }
+        }
+    }
     
 
     /// <summary>
