@@ -308,8 +308,9 @@ public class TraciController : MonoBehaviour
                     DefaultSpeed = lane.DefaultSpeed,
                     ConstructionZone = true
                 };
-
-                Client.Lane.SetDisallowed(lane.Id, lane.Allow);
+                List<string> temp = new List<string>();
+                temp.Add(lane.Allow);
+                Client.Lane.SetDisallowed(lane.Id, temp);
             }
         }
     }
@@ -348,8 +349,9 @@ public class TraciController : MonoBehaviour
                     DefaultSpeed = lane.DefaultSpeed,
                     ConstructionZone = true
                 };
-
-                Client.Lane.SetDisallowed(lane.Id, lane.Disallow);
+                List<string> temp = new List<string>();
+                temp.Add(lane.Disallow);
+                Client.Lane.SetDisallowed(lane.Id, temp);
             }
         }
     }
