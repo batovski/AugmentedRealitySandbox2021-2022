@@ -71,7 +71,6 @@ public class TraciController : MonoBehaviour
         VisualsSwitched = false;
         TrafficLightsLoaded = false;
     }
-    
     /// <summary>
     /// This connects to sumo asynchronously
     /// </summary>
@@ -549,67 +548,76 @@ public class TraciController : MonoBehaviour
 
                     Cars_GO = GameObject.Find("Cars");
                     // Get all the car ids we need to keep track of. 
-                    Traci.TraCIResponse<List<String>> CarIds = Client.Vehicle.GetIdList();
-
-                    CarIds.Content.ForEach(carId => {
-                        Traci.Types.Position3D pos = Client.Vehicle.GetPosition3D(carId).Content;
-                        float rot = (float)Client.Vehicle.GetAngle(carId).Content;
-                        //Client.Vehicle.GetVehicleClass(carId).Content.Contains("bus");
-                        Transform CarTransform = Cars_GO.transform.Find(carId);
-                        if (CarTransform != null)
+                    if (Client.Vehicle != null && Client.Vehicle.GetIdList() != null)
+                    {
+                        Traci.TraCIResponse<List<String>> CarIds = Client.Vehicle.GetIdList();
+                        if (CarIds.Content == null) return;
+                        CarIds.Content.ForEach(carId =>
                         {
-                            if (pos == null)
+                            Traci.Types.Position3D pos = Client.Vehicle.GetPosition3D(carId).Content;
+                            float rot = (float)Client.Vehicle.GetAngle(carId).Content;
+                            //Client.Vehicle.GetVehicleClass(carId).Content.Contains("bus");
+                            Transform CarTransform = Cars_GO.transform.Find(carId);
+                            if (CarTransform != null)
                             {
-                                GameObject.Destroy(GameObject.Find(carId));
+                                if (pos == null)
+                                {
+                                    GameObject.Destroy(GameObject.Find(carId));
+                                }
+                                else
+                                {
+                                    CarTransform.position = new Vector3((float)pos.X, 0.0f, (float)pos.Y);
+                                    //if (CarTransform.rotation.y != rot)
+                                    //{
+                                    //    CarTransform.Rotate(0.0f, rot, 0.0f);    
+                                    //}
+                                    CarTransform.localEulerAngles = new Vector3(0, rot - 90.0f, 0);
+                                }
+
                             }
                             else
                             {
-                                CarTransform.position = new Vector3((float)pos.X, 0.0f, (float)pos.Y);
-                                //if (CarTransform.rotation.y != rot)
-                                //{
-                                //    CarTransform.Rotate(0.0f, rot, 0.0f);    
-                                //}
-                                CarTransform.localEulerAngles = new Vector3(0, rot - 90.0f, 0);
-                            }
-                            
-                        }
-                        else
-                        {
-                            GameObject car = GameObject.Instantiate(Resources.Load("Prefabs/Vehicle", typeof(GameObject)) as GameObject, new Vector3((float)pos.X, 0.0f, (float)pos.Y), new Quaternion(0.0f, 0.0f, 0.0f, 1.0f), Cars_GO.transform);
-                           
-                            if(carId.Contains("bus")){
-                                 car.transform.Find("Bus").gameObject.SetActive(true);
-                                car.transform.Find("Car").gameObject.SetActive(false);
-                            }
-                            else if (carId.Contains("moto"))
-                            {
-                                car.transform.Find("Motorcycle").gameObject.SetActive(true);
-                                car.transform.Find("Car").gameObject.SetActive(false);
+                                GameObject car = GameObject.Instantiate(Resources.Load("Prefabs/Vehicle", typeof(GameObject)) as GameObject, new Vector3((float)pos.X, 0.0f, (float)pos.Y), new Quaternion(0.0f, 0.0f, 0.0f, 1.0f), Cars_GO.transform);
 
-                            }
-                            else if (carId.Contains("truck"))
-                            {
-                                car.transform.Find("BoxTruck").gameObject.SetActive(true);
-                                car.transform.Find("Car").gameObject.SetActive(false);
+                                if (carId.Contains("bus"))
+                                {
+                                    car.transform.Find("Bus").gameObject.SetActive(true);
+                                    car.transform.Find("Car").gameObject.SetActive(false);
+                                }
+                                else if (carId.Contains("moto"))
+                                {
+                                    car.transform.Find("Motorcycle").gameObject.SetActive(true);
+                                    car.transform.Find("Car").gameObject.SetActive(false);
 
-                            }
-                            else if (carId.Contains("bicycle"))
-                            {
-                                car.transform.Find("Bicycle").gameObject.SetActive(true);
-                                car.transform.Find("Car").gameObject.SetActive(false);
+                                }
+                                else if (carId.Contains("truck"))
+                                {
+                                    car.transform.Find("BoxTruck").gameObject.SetActive(true);
+                                    car.transform.Find("Car").gameObject.SetActive(false);
 
+                                }
+                                else if (carId.Contains("bicycle"))
+                                {
+                                    car.transform.Find("Bicycle").gameObject.SetActive(true);
+                                    car.transform.Find("Car").gameObject.SetActive(false);
+
+                                }
+                                else if (carId.Contains("ped"))
+                                {
+                                    car.transform.Find("Pedestrian").gameObject.SetActive(true);
+                                    car.transform.Find("Car").gameObject.SetActive(false);
+                                }
+
+                                car.name = carId;
+                                car.transform.parent = Cars_GO.transform;
+                                var newCarPos = new Vector3((float)pos.X, 0.0f, (float)pos.Y);
+                                var rotation = Quaternion.LookRotation(newCarPos - car.transform.position);
+                                rotation *= Quaternion.Euler(0, 90, 0);
+                                car.transform.rotation = rotation;
+                                car.transform.position = Vector3.Lerp(newCarPos, car.transform.position, Time.deltaTime * speed);
                             }
-                            else if (carId.Contains("ped"))
-                            {
-                                car.transform.Find("Pedestrian").gameObject.SetActive(true);
-                                car.transform.Find("Car").gameObject.SetActive(false);
-                            }
-                            
-                            car.name = carId;
-                            car.transform.parent = Cars_GO.transform;
-                            car.transform.position = new Vector3((float)pos.X, 0.0f, (float)pos.Y);
-                        }
-                    });
+                        });
+                    }
                 }
                 
             }

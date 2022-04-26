@@ -7,7 +7,8 @@ public class UserController : MonoBehaviour
     public static UserController Instance;
 
     public GameObject Canvas;
-    public float speed = 50.0f;
+    public float speed = 400.0f;
+    public float ZoomSpeed = 500.0f;
     public float FOV = 60;
 
     public Camera Main_Camera;
@@ -58,7 +59,7 @@ public class UserController : MonoBehaviour
                 
         }
 
-        if (Input.GetKey(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.C))
         {
             if (Main_Camera.orthographic)
             {
@@ -91,19 +92,19 @@ public class UserController : MonoBehaviour
             Main_Camera.transform.Translate(new Vector3(speed * Time.deltaTime, 0.0f, 0.0f));
         }
 
-        if (Input.GetKey(KeyCode.PageDown))
+        if (Input.GetKey(KeyCode.PageDown) || Input.GetKey(KeyCode.Z))
         {
-            Main_Camera.transform.Translate(new Vector3(0.0f, 0.0f, speed * Time.deltaTime));
+            Main_Camera.transform.Translate(new Vector3(0.0f, 0.0f, ZoomSpeed * Time.deltaTime));
         }
 
-        if (Input.GetKey(KeyCode.PageUp))
+        if (Input.GetKey(KeyCode.PageUp) || Input.GetKey(KeyCode.X))
         {
-            Main_Camera.transform.Translate(new Vector3(0.0f, 0.0f, -speed * Time.deltaTime));
+            Main_Camera.transform.Translate(new Vector3(0.0f, 0.0f, -ZoomSpeed * Time.deltaTime));
         }
 
-        if (Input.GetKey(KeyCode.Mouse1))
+       /* if (Input.GetKey(KeyCode.Mouse1))
         {
             Main_Camera.transform.LookAt(Input.mousePosition);
-        }
+        }*/
     }
 }
