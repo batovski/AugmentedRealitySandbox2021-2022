@@ -98,7 +98,6 @@ public class SumoCreator : MonoBehaviour
             foreach (XmlNode junction in junctions)
             {
                 Intersection theJunction = new Intersection();
-                UnityEngine.Debug.Log(junctions.Count.ToString());
                 if (junction.Attributes["id"] != null)
                 {
                     theJunction.Id = junction.Attributes.GetNamedItem("id").Value;

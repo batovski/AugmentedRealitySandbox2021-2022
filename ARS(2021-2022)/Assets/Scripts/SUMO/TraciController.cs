@@ -13,6 +13,8 @@ using Traci = CodingConnected.TraCI.NET;
 /// </summary>
 public class TraciController : MonoBehaviour
 {
+    public static TraciController Instance;
+
     /// <summary>
     /// The Car main Game Object
     /// </summary>
@@ -66,6 +68,15 @@ public class TraciController : MonoBehaviour
     /// </summary>
     void Start()
     {
+        if(Instance!= null)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+
         OccupancyVisual = false;
         CarVisual = true;
         VisualsSwitched = false;
@@ -277,40 +288,45 @@ public class TraciController : MonoBehaviour
     /// Sets the construction zone attribute for every lane in the road, and updates the simulation accordingly in SUMO.
     /// </summary>
     /// <param name="roadId">The ID of the road to update</param>
-    public void BlockEntireRoad(string roadId)
+    public void BlockEntireRoad(string laneId)
     {
         if (edge == null)
             edge = FindObjectOfType<Edge>();
 
+        string roadId = laneId.Substring(0, laneId.IndexOf("_"));
         Road road = edge.RoadList.Single(r => r.Id == roadId);
+        int laneIndex = road.Lanes.FindIndex(l => l.Id == laneId);
+        Lane lane = road.Lanes[laneIndex];
 
-        for (int i = 0; i < road.Lanes.Count; i++)
+        if (!lane.ConstructionZone)
         {
-            Lane lane = road.Lanes[i];
+            // double newSpeed = ToWorkZoneSpeed(double.Parse(road.Lanes[i].Speed));
 
-            if (!lane.ConstructionZone)
+            string AllowSave = lane.Allow;
+
+            road.Lanes[laneIndex] = new Lane()
             {
-                double newSpeed = ToWorkZoneSpeed(double.Parse(road.Lanes[i].Speed));
+                Id = lane.Id,
+                Index = lane.Index,
+                Speed = lane.Speed,
+                Length = lane.Length,
+                Width = lane.Width,
+                Allow = lane.Allow,
+                Disallow = "all",
+                Shape = lane.Shape,
+                Built = lane.Built,
+                DefaultSpeed = lane.DefaultSpeed,
+                ConstructionZone = true
+            };
 
-
-                road.Lanes[i] = new Lane()
-                {
-                    Id = lane.Id,
-                    Index = lane.Index,
-                    Speed = newSpeed.ToString(),
-                    Length = lane.Length,
-                    Width = lane.Width,
-                    Allow = lane.Allow,
-                    Disallow = lane.Disallow,
-                    Shape = lane.Shape,
-                    Built = lane.Built,
-                    DefaultSpeed = lane.DefaultSpeed,
-                    ConstructionZone = true
-                };
-                List<string> temp = new List<string>();
-                temp.Add(lane.Allow);
-                Client.Lane.SetDisallowed(lane.Id, temp);
-            }
+            List<string> temp1 = new List<string>();
+            temp1.Add("all");
+            Client.Lane.SetDisallowed(lane.Id, temp1);
+            UnityEngine.Debug.Log("Lane: " + laneId + " Is Now blocked!");
+        }
+        else
+        {
+            UnityEngine.Debug.LogWarning("Lane: " + laneId + " Is already blocked!");
         }
     }
 
@@ -318,40 +334,45 @@ public class TraciController : MonoBehaviour
     /// Sets the construction zone attribute for every lane in the road, and updates the simulation accordingly in SUMO.
     /// </summary>
     /// <param name="roadId">The ID of the road to update</param>
-    public void UnBlockEntireRoad(string roadId)
+    public void UnBlockEntireRoad(string laneId)
     {
         if (edge == null)
             edge = FindObjectOfType<Edge>();
 
+        string roadId = laneId.Substring(0, laneId.IndexOf("_"));
         Road road = edge.RoadList.Single(r => r.Id == roadId);
+        int laneIndex = road.Lanes.FindIndex(l => l.Id == laneId);
+        Lane lane = road.Lanes[laneIndex];
 
-        for (int i = 0; i < road.Lanes.Count; i++)
+        if (lane.ConstructionZone)
         {
-            Lane lane = road.Lanes[i];
+            // double newSpeed = ToWorkZoneSpeed(double.Parse(road.Lanes[i].Speed));
 
-            if (!lane.ConstructionZone)
+            string AllowSave = lane.Allow;
+
+            road.Lanes[laneIndex] = new Lane()
             {
-                double newSpeed = ToWorkZoneSpeed(double.Parse(road.Lanes[i].Speed));
+                Id = lane.Id,
+                Index = lane.Index,
+                Speed = lane.Speed,
+                Length = lane.Length,
+                Width = lane.Width,
+                Allow = lane.Allow,
+                Disallow = "tram rail_urban rail rail_electric rail_fast ship",
+                Shape = lane.Shape,
+                Built = lane.Built,
+                DefaultSpeed = lane.DefaultSpeed,
+                ConstructionZone = false
+            };
 
-
-                road.Lanes[i] = new Lane()
-                {
-                    Id = lane.Id,
-                    Index = lane.Index,
-                    Speed = newSpeed.ToString(),
-                    Length = lane.Length,
-                    Width = lane.Width,
-                    Allow = lane.Allow,
-                    Disallow = lane.Disallow,
-                    Shape = lane.Shape,
-                    Built = lane.Built,
-                    DefaultSpeed = lane.DefaultSpeed,
-                    ConstructionZone = true
-                };
-                List<string> temp = new List<string>();
-                temp.Add(lane.Disallow);
-                Client.Lane.SetDisallowed(lane.Id, temp);
-            }
+            List<string> temp1 = new List<string>();
+            temp1.Add(lane.Disallow);
+            Client.Lane.SetDisallowed(lane.Id, temp1);
+            UnityEngine.Debug.Log("Lane: " + laneId + " Is Now unblocked!");
+        }
+        else
+        {
+            UnityEngine.Debug.LogWarning("Lane: " + laneId + " Is not blocked!");
         }
     }
     
@@ -577,44 +598,47 @@ public class TraciController : MonoBehaviour
                             }
                             else
                             {
-                                GameObject car = GameObject.Instantiate(Resources.Load("Prefabs/Vehicle", typeof(GameObject)) as GameObject, new Vector3((float)pos.X, 0.0f, (float)pos.Y), new Quaternion(0.0f, 0.0f, 0.0f, 1.0f), Cars_GO.transform);
-
-                                if (carId.Contains("bus"))
+                                if (pos != null)
                                 {
-                                    car.transform.Find("Bus").gameObject.SetActive(true);
-                                    car.transform.Find("Car").gameObject.SetActive(false);
-                                }
-                                else if (carId.Contains("moto"))
-                                {
-                                    car.transform.Find("Motorcycle").gameObject.SetActive(true);
-                                    car.transform.Find("Car").gameObject.SetActive(false);
+                                    GameObject car = GameObject.Instantiate(Resources.Load("Prefabs/Vehicle", typeof(GameObject)) as GameObject, new Vector3((float)pos.X, 0.0f, (float)pos.Y), new Quaternion(0.0f, 0.0f, 0.0f, 1.0f), Cars_GO.transform);
 
-                                }
-                                else if (carId.Contains("truck"))
-                                {
-                                    car.transform.Find("BoxTruck").gameObject.SetActive(true);
-                                    car.transform.Find("Car").gameObject.SetActive(false);
+                                    if (carId.Contains("bus"))
+                                    {
+                                        car.transform.Find("Bus").gameObject.SetActive(true);
+                                        car.transform.Find("Car").gameObject.SetActive(false);
+                                    }
+                                    else if (carId.Contains("moto"))
+                                    {
+                                        car.transform.Find("Motorcycle").gameObject.SetActive(true);
+                                        car.transform.Find("Car").gameObject.SetActive(false);
 
-                                }
-                                else if (carId.Contains("bicycle"))
-                                {
-                                    car.transform.Find("Bicycle").gameObject.SetActive(true);
-                                    car.transform.Find("Car").gameObject.SetActive(false);
+                                    }
+                                    else if (carId.Contains("truck"))
+                                    {
+                                        car.transform.Find("BoxTruck").gameObject.SetActive(true);
+                                        car.transform.Find("Car").gameObject.SetActive(false);
 
-                                }
-                                else if (carId.Contains("ped"))
-                                {
-                                    car.transform.Find("Pedestrian").gameObject.SetActive(true);
-                                    car.transform.Find("Car").gameObject.SetActive(false);
-                                }
+                                    }
+                                    else if (carId.Contains("bicycle"))
+                                    {
+                                        car.transform.Find("Bicycle").gameObject.SetActive(true);
+                                        car.transform.Find("Car").gameObject.SetActive(false);
 
-                                car.name = carId;
-                                car.transform.parent = Cars_GO.transform;
-                                var newCarPos = new Vector3((float)pos.X, 0.0f, (float)pos.Y);
-                                var rotation = Quaternion.LookRotation(newCarPos - car.transform.position);
-                                rotation *= Quaternion.Euler(0, 90, 0);
-                                car.transform.rotation = rotation;
-                                car.transform.position = Vector3.Lerp(newCarPos, car.transform.position, Time.deltaTime * speed);
+                                    }
+                                    else if (carId.Contains("ped"))
+                                    {
+                                        car.transform.Find("Pedestrian").gameObject.SetActive(true);
+                                        car.transform.Find("Car").gameObject.SetActive(false);
+                                    }
+
+                                    car.name = carId;
+                                    car.transform.parent = Cars_GO.transform;
+                                    var newCarPos = new Vector3((float)pos.X, 0.0f, (float)pos.Y);
+                                    var rotation = Quaternion.LookRotation(newCarPos - car.transform.position);
+                                    rotation *= Quaternion.Euler(0, 90, 0);
+                                    car.transform.rotation = rotation;
+                                    car.transform.position = Vector3.Lerp(newCarPos, car.transform.position, Time.deltaTime * speed);
+                                }
                             }
                         });
                     }

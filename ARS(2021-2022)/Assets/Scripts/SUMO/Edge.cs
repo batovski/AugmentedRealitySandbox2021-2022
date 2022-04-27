@@ -30,7 +30,7 @@ public struct Lane
 /// <summary>
 /// A struct representing a Sumo Network Edge.
 /// </summary>
-[Serializable]
+[System.Serializable]
 public struct Road
 {
     public string Id { get; set; }
@@ -57,7 +57,7 @@ public class Edge : MonoBehaviour
     private GameObject Edges_GO;
     /// <summary>
     /// The list of the Networks roads.
-    /// </summary>    
+    /// </summary>
     public List<Road> RoadList;
     public Shader Road_Shader;
     /// <summary>
@@ -122,6 +122,8 @@ public class Edge : MonoBehaviour
     {
         GameObject newShape = new GameObject();
         newShape.name = id;
+        newShape.layer = LayerMask.NameToLayer("Road");
+
         LineRenderer LR = newShape.AddComponent<LineRenderer>();
         if (flat)
         {

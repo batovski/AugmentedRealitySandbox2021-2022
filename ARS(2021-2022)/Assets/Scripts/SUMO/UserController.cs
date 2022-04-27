@@ -45,6 +45,10 @@ public class UserController : MonoBehaviour
                 TC.GetComponent<TraciController>().CarVisual = !TC.GetComponent<TraciController>().CarVisual;
             }
         }
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            TraciController.Instance.BlockEntireRoad("-237758605#3_0");
+        }
 
         if (Input.GetKeyDown(KeyCode.M))
         {
