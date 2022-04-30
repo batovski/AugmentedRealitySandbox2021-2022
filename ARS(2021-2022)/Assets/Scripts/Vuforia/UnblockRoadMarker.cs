@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlockRoadMarker : MonoBehaviour
+public class UnblockRoadMarker : MonoBehaviour
 {
     public MarkersManager MarkerManager;
     public float timeForTrigger; // (in seconds)
     public float xYTolerance, zTolerance;
     [Space]
-    public Material BlockedRoadmaterial;
+    public Material UnblockedRoadmaterial;
 
     private float currentTimeOfTrigger = 0;
     bool eventTriggered = false;
@@ -30,12 +30,12 @@ public class BlockRoadMarker : MonoBehaviour
             currentTimeOfTrigger += Time.deltaTime;
         }
 
-        if(currentTimeOfTrigger >= timeForTrigger) 
+        if (currentTimeOfTrigger >= timeForTrigger)
         {
             eventTriggered = true;
             currentTimeOfTrigger = 0;
             //Call Some logic Here:
-            BlockRoads();
+            UnblockRoads();
         }
     }
     public void StartTracking()
@@ -48,7 +48,7 @@ public class BlockRoadMarker : MonoBehaviour
         isTracked = false;
         eventTriggered = false;
     }
-    private void BlockRoads()
+    private void UnblockRoads()
     {
         Vector3 HitDirection = MarkerManager.CreateProjection(gameObject.transform.position);
         LayerMask layerMask = LayerMask.GetMask("Ground");
@@ -58,8 +58,8 @@ public class BlockRoadMarker : MonoBehaviour
         if (Physics.Raycast(UserController.Instance.Main_Camera.transform.position + new Vector3(-410 * UserController.Instance.Main_Camera.transform.position.y / 4350, 0, 0)
             , HitDirection, out hit, Mathf.Infinity, layerMask))
         {
-            Debug.DrawRay(UserController.Instance.Main_Camera.transform.position + new Vector3(-410 * UserController.Instance.Main_Camera.transform.position.y/4350, 0, 0)
-                , HitDirection * hit.distance, Color.yellow, 10,false);
+            Debug.DrawRay(UserController.Instance.Main_Camera.transform.position + new Vector3(-410 * UserController.Instance.Main_Camera.transform.position.y / 4350, 0, 0)
+                , HitDirection * hit.distance, Color.yellow, 10, false);
             Debug.Log("Did Hit");
             Collider[] hitColliders = Physics.OverlapBox(hit.point, new Vector3(xYTolerance, xYTolerance, zTolerance), Quaternion.identity, m_LayerMask);
             Debug.Log(hitColliders.Length);
@@ -67,9 +67,9 @@ public class BlockRoadMarker : MonoBehaviour
             for (int i = 0; i < hitColliders.Length; ++i)
             {
                 string ID = hitColliders[i].gameObject.name;
-                TraciController.Instance.BlockEntireRoad(ID);
+                TraciController.Instance.UnBlockEntireRoad(ID);
                 LineRenderer RoadRenderer = hitColliders[i].gameObject.GetComponent<LineRenderer>();
-                RoadRenderer.material = BlockedRoadmaterial;
+                RoadRenderer.material = UnblockedRoadmaterial;
             }
         }
     }

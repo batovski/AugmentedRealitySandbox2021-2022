@@ -133,6 +133,7 @@ public class Edge : MonoBehaviour
         {
             LR.material = new Material(Road_Shader);
         }
+        LR.gameObject.layer = 6;
         LR.useWorldSpace = true;
         LR.textureMode = LineTextureMode.Tile;
         LR.alignment = LineAlignment.View;
@@ -142,6 +143,14 @@ public class Edge : MonoBehaviour
         LR.positionCount = shapelist.Count;
         LR.SetPositions(shapelist.ToArray());
         LR.transform.parent = Edges_GO.transform;
+
+        LineRenderer lineRenderer = LR;
+        MeshCollider meshCollider = newShape.AddComponent<MeshCollider>();
+
+        Mesh mesh = new Mesh();
+        lineRenderer.BakeMesh(mesh, true);
+        meshCollider.sharedMesh = mesh;
+        newShape.AddComponent<MeshCollider>();
     }
 
     /// <summary>

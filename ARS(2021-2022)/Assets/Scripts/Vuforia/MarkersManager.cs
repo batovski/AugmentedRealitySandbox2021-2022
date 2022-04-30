@@ -5,7 +5,10 @@ using UnityEngine;
 public class MarkersManager : MonoBehaviour
 {
     public float ARCameraHeight = 4350f;
+    public float XDifference = -205;
     private Transform CameraTransform;
+    [SerializeField]
+    private Transform ARCameraTransform;
 
     void Start()
     {
@@ -19,8 +22,7 @@ public class MarkersManager : MonoBehaviour
     }
     public Vector3 CreateProjection(Vector3 TrackerPos)
     {
-        Vector3 Projection = CameraTransform.forward;
-        Vector3 WorldPosition = ConvertCordinatesToWorldPos(TrackerPos);
-        return new Vector3(Projection.x * WorldPosition.x, Projection.y * WorldPosition.y, Projection.z * WorldPosition.z);
+       return (TrackerPos - ARCameraTransform.position).normalized;
     }
+  
 }

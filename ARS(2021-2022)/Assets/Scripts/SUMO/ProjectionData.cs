@@ -123,6 +123,8 @@ public class ProjectionData : MonoBehaviour
         Main_Camera.farClipPlane = 1000000.0f;
         Main_Camera.usePhysicalProperties = true;
         Main_Camera.focalLength = 50.0f;
+        chunk.AddComponent<BoxCollider>();
+        chunk.gameObject.layer = 7;
     }
 
     // Start is called before the first frame update
