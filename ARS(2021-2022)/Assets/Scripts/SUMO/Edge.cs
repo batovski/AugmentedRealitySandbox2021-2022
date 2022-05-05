@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using UnityEngine;
+using Traci = CodingConnected.TraCI.NET;
 using UnityEditor;
 
 /// <summary>
@@ -65,6 +66,23 @@ public class Edge : MonoBehaviour
     /// </summary>
     public float LANEWIDTH = 3.4f;
 
+    [SerializeField]
+    private Material Material1;
+    [SerializeField]
+    private Material Material2;
+    [SerializeField]
+    private Material Material3;
+    [SerializeField]
+    private Material Material4;
+    [SerializeField]
+    private Material Material5;
+    [SerializeField]
+    private Material Material6;
+    [SerializeField]
+    private Material Material7;
+
+    private List<Renderer> RoadsRenderer;
+
     /// <summary>
     /// Set the Edeg parent GameObject and create a new List<Road>() in Edge.RoadList.
     /// </summary>    
@@ -73,14 +91,9 @@ public class Edge : MonoBehaviour
         Edges_GO = GameObject.Find("Edges");
         RoadList = new List<Road>();
         Edges_GO.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
+        RoadsRenderer = new List<Renderer>();
     }
 
-    /// <summary>
-    /// Update is called once per frame.
-    /// </summary>    
-    void Update()
-    {
-    }
 
     /// <summary>
     /// Clear all saved Network Road Data.
@@ -143,6 +156,7 @@ public class Edge : MonoBehaviour
         LR.positionCount = shapelist.Count;
         LR.SetPositions(shapelist.ToArray());
         LR.transform.parent = Edges_GO.transform;
+        RoadsRenderer.Add(LR);
 
         LineRenderer lineRenderer = LR;
         MeshCollider meshCollider = newShape.AddComponent<MeshCollider>();
@@ -257,6 +271,49 @@ public class Edge : MonoBehaviour
                         //BuildShapeMesh(lsv, lane.Id, ltype, LANEWIDTH);
                     }
                 }
+            }
+        }
+    }
+
+    public void UpdateRoadsVisual( Traci.TraCIClient Client)
+    {
+        foreach (var child in RoadsRenderer)
+        {
+            float o = (float)Client.Lane.GetLastStepOccupancy(child.gameObject.name).Content;
+            if (o >= 0.9f)
+            {
+                if(child.material != Material7)
+                    child.material = Material7;
+            }
+            else if (o >= 0.8f)
+            {
+                if (child.material != Material6)
+                    child.material = Material6;
+            }
+            else if (o >= 0.5f)
+            {
+                if (child.material != Material5)
+                    child.material = Material5;
+            }
+            else if (o >= 0.1f)
+            {
+                if (child.material != Material4)
+                    child.material = Material4;
+            }
+            else if (o >= 0.01f)
+            {
+                if (child.material != Material3)
+                    child.material = Material3;
+            }
+            else if (o >= 0.001f)
+            {
+                if (child.material != Material2)
+                    child.material = Material2;
+            }
+            else
+            {
+                if (child.material != Material1)
+                    child.material = Material1;
             }
         }
     }

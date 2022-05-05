@@ -14,11 +14,12 @@ using Traci = CodingConnected.TraCI.NET;
 public class TraciController : MonoBehaviour
 {
     public static TraciController Instance;
-
     /// <summary>
     /// The Car main Game Object
     /// </summary>
     public GameObject Cars_GO;
+    [SerializeField]
+    private CarsController CarsManager;
     /// <summary>
     /// The simulation speed.
     /// </summary>
@@ -56,7 +57,12 @@ public class TraciController : MonoBehaviour
     /// Simulation elapsed time.
     /// </summary>
     private float Elapsedtime;
-    private Edge edge;
+    public Edge edge;
+
+    [SerializeField]
+    private Transform Edge;
+    [SerializeField]
+    private Transform Junction;
 
     /// <summary>
     /// The default traffic light program. (Used to reset stop lights to traffic lights)
@@ -77,7 +83,7 @@ public class TraciController : MonoBehaviour
             Instance = this;
         }
 
-        OccupancyVisual = false;
+        OccupancyVisual = true;
         CarVisual = true;
         VisualsSwitched = false;
         TrafficLightsLoaded = false;
@@ -436,10 +442,22 @@ public class TraciController : MonoBehaviour
     /// <param name="e">The event args</param>
     public void OnVehicleUpdate(object sender, Traci.Types.SubscriptionEventArgs e)
     {
-        GameObject Car_GO = GameObject.Find(e.ObjecId);
-        if (Car_GO != null)
+        CarsManager.UpdateCarPos(e.ObjecId, (Vector3)e.Responses.ToArray()[0]);
+    }
+    void UpdateRoadsVisual()
+    {
+        if (OccupancyVisual)
         {
-            Cars_GO.transform.position = (Vector3)e.Responses.ToArray()[0];
+            edge.UpdateRoadsVisual(Client);
+            /*
+            Transform j = GameObject.Find("Junctions").transform;
+            if (j != null)
+            {
+                foreach (Transform child in j)
+                { 
+                    child.gameObject.GetComponent<Renderer>().material = Resources.Load("Materials/Occupancy_Material_2", typeof(Material)) as Material;
+                }
+            }*/
         }
     }
 
@@ -468,81 +486,6 @@ public class TraciController : MonoBehaviour
                     VisualsSwitched = false;
                 }
 
-                Transform e = GameObject.Find("Edges").transform;
-                if (e != null)
-                {
-                    foreach (Transform child in e)
-                    {
-                        float o = (float)Client.Lane.GetLastStepOccupancy(child.gameObject.name).Content;
-                        if (o >= 0.9f)
-                        {
-                            child.gameObject.GetComponent<Renderer>().material = Resources.Load("Materials/Occupancy_Material_7", typeof(Material)) as Material;
-                        }
-                        else if (o >= 0.8f)
-                        {
-                            child.gameObject.GetComponent<Renderer>().material = Resources.Load("Materials/Occupancy_Material_6", typeof(Material)) as Material;
-                        }
-                        else if (o >= 0.5f)
-                        {
-                            child.gameObject.GetComponent<Renderer>().material = Resources.Load("Materials/Occupancy_Material_5", typeof(Material)) as Material;
-                        }
-                        else if (o >= 0.1f)
-                        {
-                            child.gameObject.GetComponent<Renderer>().material = Resources.Load("Materials/Occupancy_Material_4", typeof(Material)) as Material;
-                        }
-                        else if (o >= 0.01f)
-                        {
-                            child.gameObject.GetComponent<Renderer>().material = Resources.Load("Materials/Occupancy_Material_3", typeof(Material)) as Material;
-                        }
-                        else if (o >= 0.001f)
-                        {
-                            child.gameObject.GetComponent<Renderer>().material = Resources.Load("Materials/Occupancy_Material_2", typeof(Material)) as Material;
-                        }
-                        else
-                        {
-                            child.gameObject.GetComponent<Renderer>().material = Resources.Load("Materials/Occupancy_Material_1", typeof(Material)) as Material;
-                        }
-
-                        //int o = Client.Lane.GetLastStepVehicleNumber(child.gameObject.name).Content;
-                        //if (o >= 10)
-                        //{
-                        //    child.gameObject.GetComponent<Renderer>().material = Resources.Load("Materials/Occupancy_Material_7", typeof(Material)) as Material;
-                        //}
-                        //else if (o >= 5)
-                        //{
-                        //    child.gameObject.GetComponent<Renderer>().material = Resources.Load("Materials/Occupancy_Material_6", typeof(Material)) as Material;
-                        //}
-                        //else if (o >= 4)
-                        //{
-                        //    child.gameObject.GetComponent<Renderer>().material = Resources.Load("Materials/Occupancy_Material_5", typeof(Material)) as Material;
-                        //}
-                        //else if (o >= 3)
-                        //{
-                        //    child.gameObject.GetComponent<Renderer>().material = Resources.Load("Materials/Occupancy_Material_4", typeof(Material)) as Material;
-                        //}
-                        //else if (o >= 2)
-                        //{
-                        //    child.gameObject.GetComponent<Renderer>().material = Resources.Load("Materials/Occupancy_Material_3", typeof(Material)) as Material;
-                        //}
-                        //else if (o >= 1)
-                        //{
-                        //    child.gameObject.GetComponent<Renderer>().material = Resources.Load("Materials/Occupancy_Material_2", typeof(Material)) as Material;
-                        //}
-                        //else
-                        //{
-                        //    child.gameObject.GetComponent<Renderer>().material = Resources.Load("Materials/Occupancy_Material_1", typeof(Material)) as Material;
-                        //}
-                    }
-                }
-
-                    Transform j = GameObject.Find("Junctions").transform;
-                    if (j != null)
-                    {
-                        foreach (Transform child in j)
-                        { 
-                            child.gameObject.GetComponent<Renderer>().material = Resources.Load("Materials/Occupancy_Material_2", typeof(Material)) as Material;
-                        }
-                    }
             }
             if (CarVisual)
             {
@@ -551,13 +494,13 @@ public class TraciController : MonoBehaviour
                     if (VisualsSwitched)
                     {
                         //GameObject.Find("Occupancy_Legend").SetActive(false);
-                        Transform e = GameObject.Find("Edges").transform;
+                        Transform e = Edge;
                         foreach (Transform child in e)
                         {
                             child.gameObject.GetComponent<Renderer>().material = Resources.Load("Materials/Road_Material", typeof(Material)) as Material;
                         }
                         VisualsSwitched = false;
-                        Transform j = GameObject.Find("Junctions").transform;
+                        Transform j = Junction;
                         if (j != null)
                         {
                             foreach (Transform child in j)
@@ -567,7 +510,6 @@ public class TraciController : MonoBehaviour
                         }
                     }
 
-                    Cars_GO = GameObject.Find("Cars");
                     // Get all the car ids we need to keep track of. 
                     if (Client.Vehicle != null && Client.Vehicle.GetIdList() != null)
                     {
@@ -578,21 +520,16 @@ public class TraciController : MonoBehaviour
                             Traci.Types.Position3D pos = Client.Vehicle.GetPosition3D(carId).Content;
                             float rot = (float)Client.Vehicle.GetAngle(carId).Content;
                             //Client.Vehicle.GetVehicleClass(carId).Content.Contains("bus");
-                            Transform CarTransform = Cars_GO.transform.Find(carId);
-                            if (CarTransform != null)
+                            if (CarsManager.ContainsCar(carId))
                             {
                                 if (pos == null)
                                 {
-                                    GameObject.Destroy(GameObject.Find(carId));
+                                    CarsManager.DestroyCar(carId);
                                 }
                                 else
                                 {
-                                    CarTransform.position = new Vector3((float)pos.X, 0.0f, (float)pos.Y);
-                                    //if (CarTransform.rotation.y != rot)
-                                    //{
-                                    //    CarTransform.Rotate(0.0f, rot, 0.0f);    
-                                    //}
-                                    CarTransform.localEulerAngles = new Vector3(0, rot - 90.0f, 0);
+                                   CarsManager.UpdateCarPos(carId, 
+                                        new Vector3((float)pos.X, (float)pos.Y, (float)pos.Z), rot);
                                 }
 
                             }
@@ -631,12 +568,14 @@ public class TraciController : MonoBehaviour
                                         car.transform.Find("Car").gameObject.SetActive(false);
                                     }
 
+                                    CarsManager.AddCar(carId, car);
+                                    Client.Vehicle.SetParamater(carId);
                                     car.name = carId;
                                     car.transform.parent = Cars_GO.transform;
                                     var newCarPos = new Vector3((float)pos.X, 0.0f, (float)pos.Y);
-                                    var rotation = Quaternion.LookRotation(newCarPos - car.transform.position);
-                                    rotation *= Quaternion.Euler(0, 90, 0);
-                                    car.transform.rotation = rotation;
+                                    //var rotation = Quaternion.LookRotation(newCarPos - car.transform.position);
+                                    //rotation *= Quaternion.Euler(0, 90, 0);
+                                    //car.transform.rotation = rotation;
                                     car.transform.position = Vector3.Lerp(newCarPos, car.transform.position, Time.deltaTime * speed);
                                 }
                             }
@@ -650,6 +589,7 @@ public class TraciController : MonoBehaviour
             if(Elapsedtime > 1)
             {
                 Client.Control.SimStep();
+                UpdateRoadsVisual();
                 Elapsedtime = 0;
             }
         }

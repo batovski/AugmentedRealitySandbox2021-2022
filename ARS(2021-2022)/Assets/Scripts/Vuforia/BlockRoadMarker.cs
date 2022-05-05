@@ -9,6 +9,7 @@ public class BlockRoadMarker : MonoBehaviour
     public float xYTolerance, zTolerance;
     [Space]
     public Material BlockedRoadmaterial;
+    public GameObject testObj;
 
     private float currentTimeOfTrigger = 0;
     bool eventTriggered = false;
@@ -23,8 +24,26 @@ public class BlockRoadMarker : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
+        if (isTracked)
+        {
+            Vector3 HitDirection = MarkerManager.CreateProjection(gameObject.transform.position);
+            LayerMask layerMask = LayerMask.GetMask("Ground");
+
+            RaycastHit hit;
+            // Does the ray intersect any objects excluding the player layer
+            if (Physics.Raycast(UserController.Instance.Main_Camera.transform.position + new Vector3(-410 * UserController.Instance.Main_Camera.transform.position.y / 4350, 0, 0)
+                , HitDirection, out hit, Mathf.Infinity, layerMask))
+            {
+                testObj.transform.position = hit.point;
+            }
+        }
+        else
+        {
+            testObj.transform.position = Vector3.zero;
+        }
+        /*
         if (isTracked && !eventTriggered)
         {
             currentTimeOfTrigger += Time.deltaTime;
@@ -35,8 +54,8 @@ public class BlockRoadMarker : MonoBehaviour
             eventTriggered = true;
             currentTimeOfTrigger = 0;
             //Call Some logic Here:
-            BlockRoads();
-        }
+           // BlockRoads();
+        }*/
     }
     public void StartTracking()
     {
