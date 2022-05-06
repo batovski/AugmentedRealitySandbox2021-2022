@@ -12,6 +12,7 @@ public class UserController : MonoBehaviour
     public float FOV = 60;
 
     public Camera Main_Camera;
+    public string roadId;
 
     // Start is called before the first frame update
     void Awake()
@@ -47,7 +48,11 @@ public class UserController : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.B))
         {
-            TraciController.Instance.BlockEntireRoad("-237758605#3_0");
+            TraciController.Instance.BlockEntireRoad(roadId);
+        }
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            TraciController.Instance.UnBlockEntireRoad(roadId);
         }
 
         if (Input.GetKeyDown(KeyCode.M))

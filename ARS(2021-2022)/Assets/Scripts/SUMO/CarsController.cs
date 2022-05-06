@@ -17,14 +17,17 @@ public class CarsController : MonoBehaviour
     {
         cars.Add(id, obj);
     }
-    public void UpdateCarPos(string id, Vector3 pos, float angle = 0)
+    public bool UpdateCarPos(string id, Vector3 pos, float angle = 0)
     {
         GameObject Cars_GO = cars[id];
-
+        bool samePos = false;
         var newCarPos = new Vector3((float)pos.x, 0.0f, (float)pos.y);
+        if (newCarPos == Cars_GO.transform.position)
+            samePos = true;
         var rotation = Quaternion.Euler(0,angle,0);
         Cars_GO.transform.rotation = rotation;
         Cars_GO.transform.position = Vector3.Lerp(Cars_GO.transform.position, newCarPos, Time.deltaTime * CarSpeed);
+        return samePos;
     }
 
     public bool ContainsCar(string id)

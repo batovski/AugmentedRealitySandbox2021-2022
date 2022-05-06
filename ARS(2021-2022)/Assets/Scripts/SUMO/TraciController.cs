@@ -14,6 +14,7 @@ using Traci = CodingConnected.TraCI.NET;
 public class TraciController : MonoBehaviour
 {
     public static TraciController Instance;
+    public float SimulationFrequancy = 0.5f;
     /// <summary>
     /// The Car main Game Object
     /// </summary>
@@ -83,7 +84,6 @@ public class TraciController : MonoBehaviour
             Instance = this;
         }
 
-        OccupancyVisual = true;
         CarVisual = true;
         VisualsSwitched = false;
         TrafficLightsLoaded = false;
@@ -528,8 +528,13 @@ public class TraciController : MonoBehaviour
                                 }
                                 else
                                 {
-                                   CarsManager.UpdateCarPos(carId, 
+                                  bool needToRecalculate  = CarsManager.UpdateCarPos(carId, 
                                         new Vector3((float)pos.X, (float)pos.Y, (float)pos.Z), rot);
+                                    if (needToRecalculate)
+                                    {
+                                        UnityEngine.Debug.Log("Updating the roads");
+                                        Client.Vehicle.RerouteTraveltime(carId);
+                                    }
                                 }
 
                             }
@@ -586,7 +591,7 @@ public class TraciController : MonoBehaviour
             }
 
             Elapsedtime += Time.deltaTime;
-            if(Elapsedtime > 1)
+            if(Elapsedtime > SimulationFrequancy)
             {
                 Client.Control.SimStep();
                 UpdateRoadsVisual();

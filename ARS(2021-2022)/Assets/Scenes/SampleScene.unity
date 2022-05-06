@@ -333,115 +333,13 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 149113923}
   m_CullTransparentMesh: 1
---- !u!1 &268456784
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 268456785}
-  - component: {fileID: 268456786}
-  m_Layer: 6
-  m_Name: Edges
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &268456785
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 268456784}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1554526754}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &268456786
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 268456784}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd92addf685fa475599d6a58f9a2b58b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  RoadList: []
-  Road_Shader: {fileID: 4800000, guid: 73afe30492624d04b99b99f59fdf2e5a, type: 3}
-  LANEWIDTH: 3.2
-  Material1: {fileID: 2100000, guid: 482d6b6e085cf3c449598580ce4b8622, type: 2}
-  Material2: {fileID: 2100000, guid: a9df7ad8bbfe344d5acbe1d3bb1dc119, type: 2}
-  Material3: {fileID: 2100000, guid: 11841a6db3ade486f96e29bf12ca3555, type: 2}
-  Material4: {fileID: 2100000, guid: 9a76bf2e0451a4b3c88ae8507401aed0, type: 2}
-  Material5: {fileID: 2100000, guid: b2737ad5117934ef9926496b6f79a3f1, type: 2}
-  Material6: {fileID: 2100000, guid: bdf02789ed9b344a98e0493079742cea, type: 2}
-  Material7: {fileID: 2100000, guid: dfbc34d4e6fda40dba8407c44cf5ac54, type: 2}
---- !u!1 &407997411
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 407997412}
-  - component: {fileID: 407997413}
-  m_Layer: 7
-  m_Name: ProjectionData
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &407997412
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 407997411}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1554526754}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &407997413
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 407997411}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60658af200b7f4417a72775bfb2cfc1e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Terrain_Shader: {fileID: 4800000, guid: f11204064cc7d244c8b00e755c6cbfa8, type: 3}
-  offset: 
-  originalBounds: 
-  projectedBounds: 
---- !u!43 &423656659
+--- !u!43 &207329601
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ImageTargetMesh20106
+  m_Name: ImageTargetMesh20108
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -532,7 +430,7 @@ Mesh:
       format: 0
       dimension: 0
     m_DataSize: 128
-    _typelessdata: 00004dc30000000000004dc300000000ffff7f3f00000000000000000000000000004dc30000000000004d4300000000ffff7f3f00000000000000000000803f00004d430000000000004dc300000000ffff7f3f000000000000803f0000000000004d430000000000004d4300000000ffff7f3f000000000000803f0000803f
+    _typelessdata: 000070c200000000000070c200000000ffff7f3f000000000000000000000000000070c2000000000000704200000000ffff7f3f00000000000000000000803f0000704200000000000070c200000000ffff7f3f000000000000803f0000000000007042000000000000704200000000ffff7f3f000000000000803f0000803f
   m_CompressedMesh:
     m_Vertices:
       m_NumItems: 0
@@ -599,6 +497,108 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &268456784
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 268456785}
+  - component: {fileID: 268456786}
+  m_Layer: 6
+  m_Name: Edges
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &268456785
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 268456784}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1554526754}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &268456786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 268456784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd92addf685fa475599d6a58f9a2b58b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RoadList: []
+  Road_Shader: {fileID: 4800000, guid: 73afe30492624d04b99b99f59fdf2e5a, type: 3}
+  LANEWIDTH: 3.2
+  Material1: {fileID: 2100000, guid: 21248d087e98f4ee280ad07f552b6e29, type: 2}
+  Material2: {fileID: 2100000, guid: a9df7ad8bbfe344d5acbe1d3bb1dc119, type: 2}
+  Material3: {fileID: 2100000, guid: 11841a6db3ade486f96e29bf12ca3555, type: 2}
+  Material4: {fileID: 2100000, guid: 9a76bf2e0451a4b3c88ae8507401aed0, type: 2}
+  Material5: {fileID: 2100000, guid: b2737ad5117934ef9926496b6f79a3f1, type: 2}
+  Material6: {fileID: 2100000, guid: bdf02789ed9b344a98e0493079742cea, type: 2}
+  Material7: {fileID: 2100000, guid: dfbc34d4e6fda40dba8407c44cf5ac54, type: 2}
+--- !u!1 &407997411
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 407997412}
+  - component: {fileID: 407997413}
+  m_Layer: 7
+  m_Name: ProjectionData
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &407997412
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 407997411}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1554526754}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &407997413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 407997411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60658af200b7f4417a72775bfb2cfc1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Terrain_Shader: {fileID: 4800000, guid: f11204064cc7d244c8b00e755c6cbfa8, type: 3}
+  offset: 
+  originalBounds: 
+  projectedBounds: 
 --- !u!1 &457790479
 GameObject:
   m_ObjectHideFlags: 0
@@ -1127,7 +1127,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 753563039}
-  m_Mesh: {fileID: 423656659}
+  m_Mesh: {fileID: 207329601}
 --- !u!23 &753563042
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1148,7 +1148,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2060248145}
+  - {fileID: 1417938389}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1267,8 +1267,8 @@ MonoBehaviour:
   mDataSetPath: Vuforia/db1.xml
   mAspectRatio: 1
   mImageTargetType: 0
-  mWidth: 410
-  mHeight: 410
+  mWidth: 120
+  mHeight: 120
   mRuntimeTexture: {fileID: 0}
   mMotionHint: 1
 --- !u!114 &753563046
@@ -1709,7 +1709,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2115836157}
+  - {fileID: 1091366653}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1934,6 +1934,38 @@ MonoBehaviour:
   ZoomSpeed: 300
   FOV: 60
   Main_Camera: {fileID: 963194227}
+  roadId: 
+--- !u!21 &1091366653
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 'qrcode3Material
+
+    20168'
+  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 5
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats: []
+    m_Colors:
+    - _Color: {r: 0.82089555, g: 0.82089555, b: 0.82089555, a: 1}
+  m_BuildTextureStacks: []
 --- !u!1 &1127239155
 GameObject:
   m_ObjectHideFlags: 0
@@ -2016,6 +2048,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CarSpeed: 2
+--- !u!21 &1417938389
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 'qrcode2Material
+
+    20120'
+  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 5
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats: []
+    m_Colors:
+    - _Color: {r: 0.82089555, g: 0.82089555, b: 0.82089555, a: 1}
+  m_BuildTextureStacks: []
 --- !u!1 &1481933318
 GameObject:
   m_ObjectHideFlags: 0
@@ -2264,13 +2327,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d940d55ceec5e4766beb740675447b67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SimulationFrequancy: 0.5
   Cars_GO: {fileID: 1257097002}
   CarsManager: {fileID: 1257097004}
   speed: 2
   HostName: 127.0.0.1
   Port: 4001
   ConfigFile: 
-  OccupancyVisual: 1
+  OccupancyVisual: 0
   CarVisual: 1
   edge: {fileID: 268456786}
   Edge: {fileID: 268456785}
@@ -2695,7 +2759,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ARCameraHeight: 4350
-  XDifference: -205
+  XDifference: -105
   ARCameraTransform: {fileID: 1607653435}
 --- !u!1 &1902773423
 GameObject:
@@ -2744,65 +2808,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UI_GO: {fileID: 862288560}
---- !u!21 &2060248145
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 'qrcode2Material
-
-    20122'
-  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 5
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats: []
-    m_Colors:
-    - _Color: {r: 0.82089555, g: 0.82089555, b: 0.82089555, a: 1}
-  m_BuildTextureStacks: []
---- !u!21 &2115836157
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 'qrcode3Material
-
-    20170'
-  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 5
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats: []
-    m_Colors:
-    - _Color: {r: 0.82089555, g: 0.82089555, b: 0.82089555, a: 1}
-  m_BuildTextureStacks: []
