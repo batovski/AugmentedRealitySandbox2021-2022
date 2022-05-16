@@ -448,7 +448,7 @@ public class TraciController : MonoBehaviour
     {
         if (OccupancyVisual)
         {
-            edge.UpdateRoadsVisual(Client);
+            //edge.UpdateRoadsVisual(Client);
             /*
             Transform j = GameObject.Find("Junctions").transform;
             if (j != null)
@@ -530,11 +530,9 @@ public class TraciController : MonoBehaviour
                                 {
                                   bool needToRecalculate  = CarsManager.UpdateCarPos(carId, 
                                         new Vector3((float)pos.X, (float)pos.Y, (float)pos.Z), rot);
-                                    if (needToRecalculate)
-                                    {
-                                        UnityEngine.Debug.Log("Updating the roads");
-                                        Client.Vehicle.RerouteTraveltime(carId);
-                                    }
+                                    string lane_id = Client.Vehicle.GetLine(carId).Content;
+                                    float o = (float)Client.Lane.GetLastStepOccupancy(lane_id).Content;
+                                    edge.UpdateRoadVisual(lane_id, o);
                                 }
 
                             }
