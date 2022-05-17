@@ -530,7 +530,7 @@ public class TraciController : MonoBehaviour
                                 {
                                   bool needToRecalculate  = CarsManager.UpdateCarPos(carId, 
                                         new Vector3((float)pos.X, (float)pos.Y, (float)pos.Z), rot);
-                                    string lane_id = Client.Vehicle.GetLine(carId).Content;
+                                    string lane_id = Client.Vehicle.GetLaneID(carId).Content;
                                     float o = (float)Client.Lane.GetLastStepOccupancy(lane_id).Content;
                                     edge.UpdateRoadVisual(lane_id, o);
                                 }
@@ -572,7 +572,6 @@ public class TraciController : MonoBehaviour
                                     }
 
                                     CarsManager.AddCar(carId, car);
-                                    Client.Vehicle.SetParamater(carId);
                                     car.name = carId;
                                     car.transform.parent = Cars_GO.transform;
                                     var newCarPos = new Vector3((float)pos.X, 0.0f, (float)pos.Y);

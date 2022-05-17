@@ -81,7 +81,7 @@ public class Edge : MonoBehaviour
     [SerializeField]
     private Material Material7;
 
-    private Dictionary<string, Renderer> RoadsRenderer;
+    private Dictionary<string, LaneLogic> RoadsRenderer;
 
     /// <summary>
     /// Set the Edeg parent GameObject and create a new List<Road>() in Edge.RoadList.
@@ -91,7 +91,7 @@ public class Edge : MonoBehaviour
         Edges_GO = GameObject.Find("Edges");
         RoadList = new List<Road>();
         Edges_GO.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
-        RoadsRenderer = new Dictionary<string, Renderer>();
+        RoadsRenderer = new Dictionary<string, LaneLogic>();
     }
 
 
@@ -156,7 +156,9 @@ public class Edge : MonoBehaviour
         LR.positionCount = shapelist.Count;
         LR.SetPositions(shapelist.ToArray());
         LR.transform.parent = Edges_GO.transform;
-        RoadsRenderer.Add(id, LR);
+        LR.gameObject.AddComponent<LaneLogic>();
+        var logic = LR.gameObject.GetComponent<LaneLogic>();
+        RoadsRenderer.Add(id, logic);
 
         LineRenderer lineRenderer = LR;
         MeshCollider meshCollider = newShape.AddComponent<MeshCollider>();
@@ -320,41 +322,10 @@ public class Edge : MonoBehaviour
 
     public void UpdateRoadVisual(string id, float o)
     {
-        Renderer child = RoadsRenderer[id];
-        if (o >= 0.9f)
+        LaneLogic child;
+        if (RoadsRenderer.TryGetValue(id, out child))
         {
-            if (child.material != Material7)
-                child.material = Material7;
-        }
-        else if (o >= 0.8f)
-        {
-            if (child.material != Material6)
-                child.material = Material6;
-        }
-        else if (o >= 0.5f)
-        {
-            if (child.material != Material5)
-                child.material = Material5;
-        }
-        else if (o >= 0.1f)
-        {
-            if (child.material != Material4)
-                child.material = Material4;
-        }
-        else if (o >= 0.01f)
-        {
-            if (child.material != Material3)
-                child.material = Material3;
-        }
-        else if (o >= 0.001f)
-        {
-            if (child.material != Material2)
-                child.material = Material2;
-        }
-        else
-        {
-            if (child.material != Material1)
-                child.material = Material1;
+            child.UpdateVisual(o, Material1, Material2, Material3, Material4, Material5, Material6, Material7);
         }
     }
 }
