@@ -528,7 +528,7 @@ public class TraciController : MonoBehaviour
                                 }
                                 else
                                 {
-                                  bool needToRecalculate  = CarsManager.UpdateCarPos(carId, 
+                                  CarsManager.UpdateCarPos(carId, 
                                         new Vector3((float)pos.X, (float)pos.Y, (float)pos.Z), rot);
                                     string lane_id = Client.Vehicle.GetLaneID(carId).Content;
                                     float o = (float)Client.Lane.GetLastStepOccupancy(lane_id).Content;
@@ -590,9 +590,19 @@ public class TraciController : MonoBehaviour
             Elapsedtime += Time.deltaTime;
             if(Elapsedtime > SimulationFrequancy)
             {
-                Client.Control.SimStep();
-                UpdateRoadsVisual();
-                Elapsedtime = 0;
+                if (Client != null && Client.Control != null)
+                {
+                    try
+                    {
+                        Client.Control.SimStep();
+                        UpdateRoadsVisual();
+                        Elapsedtime = 0;
+                    }
+                    catch(Exception ex)
+                    {
+
+                    }
+                }
             }
         }
     }

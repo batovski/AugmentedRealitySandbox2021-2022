@@ -5,8 +5,9 @@ using UnityEngine;
 public class BlockRoadMarker : MonoBehaviour
 {
     public MarkersManager MarkerManager;
-    public float timeForTrigger; // (in seconds)
+    public float timeForTrigger = 4; // (in seconds)
     public float xYTolerance, zTolerance;
+
     [Space]
     public Material BlockedRoadmaterial;
     public GameObject testObj;
@@ -28,22 +29,23 @@ public class BlockRoadMarker : MonoBehaviour
     {
         if (isTracked)
         {
-            Vector3 HitDirection = MarkerManager.CreateProjection(gameObject.transform.position);
+            Vector3 HitDirection = Quaternion.Euler(89.937f,0, 0) * MarkerManager.CreateProjection(gameObject.transform.position);
             LayerMask layerMask = LayerMask.GetMask("Ground");
 
             RaycastHit hit;
             // Does the ray intersect any objects excluding the player layer
-            if (Physics.Raycast(UserController.Instance.Main_Camera.transform.position + new Vector3(-410 * UserController.Instance.Main_Camera.transform.position.y / 4350, 0, 0)
+            if (Physics.Raycast(UserController.Instance.Main_Camera.transform.position + MarkerManager.GetImageShift()
                 , HitDirection, out hit, Mathf.Infinity, layerMask))
             {
                 testObj.transform.position = hit.point;
             }
         }
+        
         else
         {
             testObj.transform.position = Vector3.zero;
         }
-        /*
+        
         if (isTracked && !eventTriggered)
         {
             currentTimeOfTrigger += Time.deltaTime;
@@ -54,8 +56,8 @@ public class BlockRoadMarker : MonoBehaviour
             eventTriggered = true;
             currentTimeOfTrigger = 0;
             //Call Some logic Here:
-           // BlockRoads();
-        }*/
+           BlockRoads();
+        }
     }
     public void StartTracking()
     {
@@ -69,17 +71,14 @@ public class BlockRoadMarker : MonoBehaviour
     }
     private void BlockRoads()
     {
-        Vector3 HitDirection = MarkerManager.CreateProjection(gameObject.transform.position);
+        Vector3 HitDirection = Quaternion.Euler(89.937f, 0, 0) * MarkerManager.CreateProjection(gameObject.transform.position);
         LayerMask layerMask = LayerMask.GetMask("Ground");
 
         RaycastHit hit;
         // Does the ray intersect any objects excluding the player layer
-        if (Physics.Raycast(UserController.Instance.Main_Camera.transform.position + new Vector3(-410 * UserController.Instance.Main_Camera.transform.position.y / 4350, 0, 0)
-            , HitDirection, out hit, Mathf.Infinity, layerMask))
+        if (Physics.Raycast(UserController.Instance.Main_Camera.transform.position + MarkerManager.GetImageShift()
+               , HitDirection, out hit, Mathf.Infinity, layerMask))
         {
-            Debug.DrawRay(UserController.Instance.Main_Camera.transform.position + new Vector3(-410 * UserController.Instance.Main_Camera.transform.position.y/4350, 0, 0)
-                , HitDirection * hit.distance, Color.yellow, 10,false);
-            Debug.Log("Did Hit");
             Collider[] hitColliders = Physics.OverlapBox(hit.point, new Vector3(xYTolerance, xYTolerance, zTolerance), Quaternion.identity, m_LayerMask);
             Debug.Log(hitColliders.Length);
             //Check when there is a new collider coming into contact with the box

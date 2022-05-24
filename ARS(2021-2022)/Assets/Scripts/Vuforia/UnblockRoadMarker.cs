@@ -9,6 +9,7 @@ public class UnblockRoadMarker : MonoBehaviour
     public float xYTolerance, zTolerance;
     [Space]
     public Material UnblockedRoadmaterial;
+    public GameObject testObj;
 
     private float currentTimeOfTrigger = 0;
     bool eventTriggered = false;
@@ -25,6 +26,20 @@ public class UnblockRoadMarker : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isTracked)
+        {
+            Vector3 HitDirection = Quaternion.Euler(89.937f, 0, 0) * MarkerManager.CreateProjection(gameObject.transform.position);
+            LayerMask layerMask = LayerMask.GetMask("Ground");
+
+            RaycastHit hit;
+            // Does the ray intersect any objects excluding the player layer
+            if (Physics.Raycast(UserController.Instance.Main_Camera.transform.position + MarkerManager.GetImageShift()
+                , HitDirection, out hit, Mathf.Infinity, layerMask))
+            {
+                testObj.transform.position = hit.point;
+            }
+        }
+
         if (isTracked && !eventTriggered)
         {
             currentTimeOfTrigger += Time.deltaTime;
@@ -50,17 +65,14 @@ public class UnblockRoadMarker : MonoBehaviour
     }
     private void UnblockRoads()
     {
-        Vector3 HitDirection = MarkerManager.CreateProjection(gameObject.transform.position);
+        Vector3 HitDirection = Quaternion.Euler(89.937f, 0, 0) * MarkerManager.CreateProjection(gameObject.transform.position);
         LayerMask layerMask = LayerMask.GetMask("Ground");
 
         RaycastHit hit;
         // Does the ray intersect any objects excluding the player layer
-        if (Physics.Raycast(UserController.Instance.Main_Camera.transform.position + new Vector3(-410 * UserController.Instance.Main_Camera.transform.position.y / 4350, 0, 0)
-            , HitDirection, out hit, Mathf.Infinity, layerMask))
+        if (Physics.Raycast(UserController.Instance.Main_Camera.transform.position + MarkerManager.GetImageShift()
+               , HitDirection, out hit, Mathf.Infinity, layerMask))
         {
-            Debug.DrawRay(UserController.Instance.Main_Camera.transform.position + new Vector3(-410 * UserController.Instance.Main_Camera.transform.position.y / 4350, 0, 0)
-                , HitDirection * hit.distance, Color.yellow, 10, false);
-            Debug.Log("Did Hit");
             Collider[] hitColliders = Physics.OverlapBox(hit.point, new Vector3(xYTolerance, xYTolerance, zTolerance), Quaternion.identity, m_LayerMask);
             Debug.Log(hitColliders.Length);
             //Check when there is a new collider coming into contact with the box

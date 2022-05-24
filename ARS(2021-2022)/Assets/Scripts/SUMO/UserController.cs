@@ -13,6 +13,7 @@ public class UserController : MonoBehaviour
 
     public Camera Main_Camera;
     public string roadId;
+    public GameObject roadToBlock;
 
     // Start is called before the first frame update
     void Awake()
@@ -49,6 +50,8 @@ public class UserController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.B))
         {
             TraciController.Instance.BlockEntireRoad(roadId);
+            LineRenderer RoadRenderer = roadToBlock.GetComponent<LineRenderer>();
+            RoadRenderer.material = Resources.Load("Materials/Occupancy_Material_7", typeof(Material)) as Material;
         }
         if (Input.GetKeyDown(KeyCode.U))
         {
