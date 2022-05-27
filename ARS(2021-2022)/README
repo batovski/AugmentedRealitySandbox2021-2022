@@ -1,11 +1,11 @@
-Hardware
+Required Hardware
 1080p Webcam
 A mini short-throw projector
 Intel Core I7 or equivalent processor. 8+ GB RAM
 GTX 1080 Graphics Card (Other cards may likely work, but are untested)
 An elevated sandbox with approximately 200 lbs. of play sand and an overhead mount for the projector, webcam and Kinect
 
-Installation
+Installation Steps
 Install Unity
 Go to url https://unity3d.com/get-unity/download and download the latest Unity version
 Execute the downloaded installer and follow the instructions given
@@ -26,7 +26,7 @@ Zoom-in using “Z”, Zoom-out using “X”
 Use the cross image to block a road / Use the five rectangular pronged image to unblock a road
 Watch demo video to see example usage
 
-Steps to use origin/destination script
+Steps to Use origin/destination Script
 Add gridDistricts and od_script python files to SUMO simulation folder
 Run od_script file
 Enter Y to change simulation to origin/destination (enter N to change back to random routes)
