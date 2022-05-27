@@ -1,0 +1,47 @@
+Hardware
+1080p Webcam
+A mini short-throw projector
+Intel Core I7 or equivalent processor. 8+ GB RAM
+GTX 1080 Graphics Card (Other cards may likely work, but are untested)
+An elevated sandbox with approximately 200 lbs. of play sand and an overhead mount for the projector, webcam and Kinect
+
+Installation
+Install Unity
+Go to url https://unity3d.com/get-unity/download and download the latest Unity version
+Execute the downloaded installer and follow the instructions given
+Install Sumo
+Go to https://sumo.dlr.de/docs/Downloads.php and download the 64-bit installer for windows
+Execute the downloaded installer and follow the instructions given
+Clone the Repository
+https://github.com/batovski/AugmentedRealitySandbox2021-2022
+Install Vuforia
+Follow the steps on the official Vuforia website: https://library.vuforia.com/getting-started/getting-started-vuforia-engine-unity
+
+Steps to Run Project
+Open the Unity project
+After opening the project, run the program in the editor by pressing the play button
+Load a SUMO simulation by clicking on the load button and selecting the desired folder
+Move your camera using the “W”, “A”, “S”, “D”
+Zoom-in using “Z”, Zoom-out using “X”
+Use the cross image to block a road / Use the five rectangular pronged image to unblock a road
+Watch demo video to see example usage
+
+Steps to use origin/destination script
+Add gridDistricts and od_script python files to SUMO simulation folder
+Run od_script file
+Enter Y to change simulation to origin/destination (enter N to change back to random routes)
+Enter the number of routes (number of origins and destinations you want to specify)
+Enter origin grid based on available grids
+Grids are displayed as X_Y coordinates (0_0 is bottom left of simulation)
+Enter destination grid based on available grids
+Refresh or reopen SUMO simulation in Unity
+
+Link to Repo
+https://github.com/batovski/AugmentedRealitySandbox2021-2022
+
+Unrealized Features
+Interaction with 3D printed objects
+Natural disaster (earthquake, tsunami) visual and functional simulation
+
+Future Projects
+Overall, we met most of the goals that we set out to achieve with this project. However, we feel that there are additional features that can be added in the future to improve the useability. The main idea that we had would be to create a program that simulates earthquakes and floods and their effects on coastal cities. This would be used alongside our project, but will focus more on the effect on the city environment rather than the roads and traffic. This would help determine the likelihood of specific roads being destroyed, which could then be used with our project to significantly improve disaster planning and response. 
